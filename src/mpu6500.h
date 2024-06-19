@@ -37,7 +37,7 @@
 #endif
 #include "invensense_imu.h"  // NOLINT
 
-namespace bfs {
+namespace aabl {
 
 class Mpu6500 {
  public:

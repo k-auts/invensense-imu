@@ -1,5 +1,6 @@
 # ignore the build directory
 /build*
-
+/src/io_config.h
+.pio
 # ignore VS code
 .vscode

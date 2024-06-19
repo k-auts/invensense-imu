@@ -35,7 +35,7 @@
 #include "core/core.h"
 #endif
 
-namespace bfs {
+namespace aabl {
 
 void Mpu9250::Config(TwoWire *i2c, const I2cAddr addr) {
   imu_.Config(i2c, static_cast<uint8_t>(addr));
@@ -466,4 +466,4 @@ bool Mpu9250::ReadAk8963Registers(const uint8_t reg, const uint8_t count,
   return ReadRegisters(EXT_SENS_DATA_00_, count, data);
 }
 
-}  // namespace bfs
+}  // namespace aabl

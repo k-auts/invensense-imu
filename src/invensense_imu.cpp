@@ -25,7 +25,7 @@
 
 #include "invensense_imu.h"  // NOLINT
 
-namespace bfs {
+namespace aabl {
 
 void InvensenseImu::Config(TwoWire *i2c, const uint8_t addr) {
   i2c_ = i2c;

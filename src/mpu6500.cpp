@@ -35,7 +35,7 @@
 #include "core/core.h"
 #endif
 
-namespace bfs {
+namespace aabl {
 
 void Mpu6500::Config(TwoWire *i2c, const I2cAddr addr) {
   imu_.Config(i2c, static_cast<uint8_t>(addr));

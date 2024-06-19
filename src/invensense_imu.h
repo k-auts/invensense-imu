@@ -36,7 +36,7 @@
 #include "core/core.h"
 #endif
 
-namespace bfs {
+namespace aabl {
 
 class InvensenseImu {
  public:

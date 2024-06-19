@@ -37,7 +37,7 @@
 #endif
 #include "invensense_imu.h"  // NOLINT
 
-namespace bfs {
+namespace aabl {
 
 class Mpu9250 {
  public:
@@ -211,6 +211,6 @@ class Mpu9250 {
                            uint8_t * const data);
 };
 
-}  // namespace bfs
+}  // namespace aabl
 
 #endif  // INVENSENSE_IMU_SRC_MPU9250_H_ NOLINT
