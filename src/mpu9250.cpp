@@ -42,8 +42,10 @@ void Mpu9250::Config(TwoWire *i2c, const I2cAddr addr) {
 }
 void Mpu9250::Config(SPIClass *spi, const uint8_t cs) {
   imu_.Config(spi, cs);
+  Serial.println("IMU is configured with SPI");
 }
 bool Mpu9250::Begin() {
+  Serial.println("IMU Begin!");
   imu_.Begin();
   /* 1 MHz for config */
   spi_clock_ = SPI_CFG_CLOCK_;
