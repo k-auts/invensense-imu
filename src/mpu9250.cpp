@@ -37,6 +37,15 @@
 
 namespace aabl {
 
+
+Mpu9250::Mpu9250(TwoWire *i2c, const I2cAddr addr){
+  imu_.Config(i2c, static_cast<uint8_t>(addr));
+}
+Mpu9250::Mpu9250(SPIClass *spi, const uint8_t cs){
+  imu_.Config(spi, cs);
+}
+
+
 void Mpu9250::Config(TwoWire *i2c, const I2cAddr addr) {
   imu_.Config(i2c, static_cast<uint8_t>(addr));
 }
