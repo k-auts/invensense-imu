@@ -54,68 +54,83 @@ void Mpu9250::Config(SPIClass *spi, const uint8_t cs) {
   Serial.println("IMU is configured with SPI");
 }
 bool Mpu9250::Begin() {
-  Serial.println("IMU Begin!");
   imu_.Begin();
   /* 1 MHz for config */
   spi_clock_ = SPI_CFG_CLOCK_;
   /* Select clock source to gyro */
+  Serial.println("Select clock source to gyro");
   if (!WriteRegister(PWR_MGMNT_1_, CLKSEL_PLL_)) {
     return false;
   }
   /* Enable I2C master mode */
+  Serial.println("Enable I2C master mode");
   if (!WriteRegister(USER_CTRL_, I2C_MST_EN_)) {
     return false;
   }
   /* Set the I2C bus speed to 400 kHz */
+  Serial.println("Set the I2C bus speed to 400 kHz");
   if (!WriteRegister(I2C_MST_CTRL_, I2C_MST_CLK_)) {
     return false;
   }
   /* Set AK8963 to power down */
+  Serial.println("Set AK8963 to power down");
   WriteAk8963Register(AK8963_CNTL1_, AK8963_PWR_DOWN_);
   /* Reset the MPU9250 */
+  Serial.println("Reset the MPU9250");
   WriteRegister(PWR_MGMNT_1_, H_RESET_);
   /* Wait for MPU-9250 to come back up */
   delay(1);
   /* Reset the AK8963 */
+  Serial.println("Reset the AK8963");
   WriteAk8963Register(AK8963_CNTL2_, AK8963_RESET_);
   /* Select clock source to gyro */
+  Serial.println("Select clock source to gyro");
   if (!WriteRegister(PWR_MGMNT_1_, CLKSEL_PLL_)) {
     return false;
   }
   /* Check the WHO AM I byte */
+  Serial.println("Check the WHO AM I byte");
   if (!ReadRegisters(WHOAMI_, sizeof(who_am_i_), &who_am_i_)) {
     return false;
   }
+  Serial.print("WHO AM I : "); Serial.println(who_am_i_);
   if ((who_am_i_ != WHOAMI_MPU9250_) && (who_am_i_ != WHOAMI_MPU9255_)) {
     return false;
   }
   /* Enable I2C master mode */
+  Serial.println("Enable I2C master mode");
   if (!WriteRegister(USER_CTRL_, I2C_MST_EN_)) {
     return false;
   }
   /* Set the I2C bus speed to 400 kHz */
+  Serial.println("Set the I2C bus speed to 400 kHz");
   if (!WriteRegister(I2C_MST_CTRL_, I2C_MST_CLK_)) {
     return false;
   }
   /* Check the AK8963 WHOAMI */
+  Serial.println("Check the AK8963 WHOAMI");
   if (!ReadAk8963Registers(AK8963_WHOAMI_, sizeof(who_am_i_), &who_am_i_)) {
     return false;
   }
+  Serial.print("WHO AM I : "); Serial.println(who_am_i_);
   if (who_am_i_ != WHOAMI_AK8963_) {
     return false;
   }
   /* Get the magnetometer calibration */
   /* Set AK8963 to power down */
+  Serial.println("Set AK8963 to power down");
   if (!WriteAk8963Register(AK8963_CNTL1_, AK8963_PWR_DOWN_)) {
     return false;
   }
   delay(100);  // long wait between AK8963 mode changes
   /* Set AK8963 to FUSE ROM access */
+  Serial.println("Set AK8963 to FUSE ROM access");
   if (!WriteAk8963Register(AK8963_CNTL1_, AK8963_FUSE_ROM_)) {
     return false;
   }
   delay(100);  // long wait between AK8963 mode changes
   /* Read the AK8963 ASA registers and compute magnetometer scale factors */
+  Serial.println("Read the AK8963 ASA registers and compute magnetometer scale factors");
   if (!ReadAk8963Registers(AK8963_ASA_, sizeof(asa_buff_), asa_buff_)) {
     return false;
   }
@@ -126,31 +141,38 @@ bool Mpu9250::Begin() {
   mag_scale_[2] = ((static_cast<float>(asa_buff_[2]) - 128.0f)
     / 256.0f + 1.0f) * 4912.0f / 32760.0f;
   /* Set AK8963 to power down */
+  Serial.println("Set AK8963 to power down");
   if (!WriteAk8963Register(AK8963_CNTL1_, AK8963_PWR_DOWN_)) {
     return false;
   }
   /* Set AK8963 to 16 bit resolution, 100 Hz update rate */
+  Serial.println("Set AK8963 to 16 bit resolution, 100 Hz update rate");
   if (!WriteAk8963Register(AK8963_CNTL1_, AK8963_CNT_MEAS2_)) {
     return false;
   }
   delay(100);  // long wait between AK8963 mode changes
   /* Select clock source to gyro */
+  Serial.println("Select clock source to gyro");
   if (!WriteRegister(PWR_MGMNT_1_, CLKSEL_PLL_)) {
     return false;
   }
   /* Set the accel range to 16G by default */
+  Serial.println("Set the accel range to 16G by default");
   if (!ConfigAccelRange(ACCEL_RANGE_16G)) {
     return false;
   }
   /* Set the gyro range to 2000DPS by default*/
+  Serial.println("Set the gyro range to 2000DPS by default");
   if (!ConfigGyroRange(GYRO_RANGE_2000DPS)) {
     return false;
   }
   /* Set the DLPF to 184HZ by default */
+  Serial.println("Set the DLPF to 184HZ by default");
   if (!ConfigDlpfBandwidth(DLPF_BANDWIDTH_184HZ)) {
     return false;
   }
   /* Set the SRD to 0 by default */
+  Serial.println("Set the SRD to 0 by default");
   if (!ConfigSrd(0)) {
     return false;
   }

@@ -26,17 +26,17 @@
 #include "SPI.h"
 #include <Arduino.h>
 
-#include "io_config.h"
+#include "../../../src/io_module/io_config.h"
 #include "mpu9250.h"
 
-SPIClass mySPI = SPIClass(SPI3_MOSI_PIN, SPI3_MISO_PIN, SPI3_SCL_PIN);
+SPIClass mySPI = SPIClass(SPI1_MOSI_PIN, SPI1_MISO_PIN, SPI1_SCL_PIN);
 
 /* Mpu9250 object, SPI bus, CS on pin 10 */
-aabl::Mpu9250 imu(&mySPI, SPI3_CS_PIN);
+aabl::Mpu9250 imu(&mySPI, SPI1_CS_PIN);
 
 void setup() {
   /* Serial to display data */
-  Serial.begin(8000);
+  Serial.begin(921600);
   while(!Serial) {}
   /* Start the SPI bus */
   mySPI.begin();
